@@ -50,8 +50,8 @@ live_loop :bass, sync: :ambi do
   scl = scale(:C4, :major, num_octaves: 2)
   pattern.each do |pos|
     if pos != :r then
-      play scl[pos], amp: 0.5 #  + 4
-      play scl[pos+12.2], amp: 0.5
+      play scl[pos], amp: 0.8 #  + 4
+      play scl[pos+12.2], amp: 0.8
     end
     sleep t
   end
