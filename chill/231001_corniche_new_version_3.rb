@@ -1,4 +1,5 @@
 t = 0.25
+repeat = 0
 
 live_loop :ambi do
   use_synth :hoover
@@ -6,7 +7,7 @@ live_loop :ambi do
   ns = [:D4, :G4, :F4, :C5]
   ns.each do |n|
     use_synth :hoover
-    play chord(n, ['6'].tick(:notes)), amp: 1.8  # + 4
+    play chord(n, ['6'].tick(:notes)), amp: 1  # + 4
     if one_in(1) then
       with_fx :echo do
         use_synth :pretty_bell
@@ -27,27 +28,32 @@ live_loop :r, sync: :ambi do
   end
 end
 
-rs = 52000
+rs = 49000
 count = 0
 live_loop :bass, sync: :ambi do
+  use_synth :chiplead
   #stop
   if count % 2 == 0 then
     rs = rs + 1
   end
   use_random_seed rs #12 19
   pattern = [3,:r,5,:r,4,:r,6,:r,3,:r,5,:r,7,:r,11,:r].shuffle
-  use_synth :chiplead
+  if one_in(6) and repeat == 0 then
+    repeat = 1
+    pattern = [3,:r,5,:r,4,:r,6,:r,3,:r,5,:r,7,:r,6,:r]
+  end
+  if repeat == 1 then
+    repeat = 1
+    pattern = [3,:r,5,:r,4,:r,6,:r,3,:r,5,:r,7,:r,11,:r]
+    repeat = 0
+  end
   scl = scale(:C4, :major, num_octaves: 2)
   pattern.each do |pos|
     if pos != :r then
-      play scl[pos], amp: 1.5 #  + 4
-      play scl[pos+12.2], amp: 1.5
+      play scl[pos], amp: 0.5 #  + 4
+      play scl[pos+12.2], amp: 0.5
     end
     sleep t
   end
   count += 1
 end
-
-
-
-
