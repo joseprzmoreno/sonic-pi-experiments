@@ -1,5 +1,4 @@
 t = 0.25
-repeat = 0
 
 live_loop :ambi do
   use_synth :hoover
@@ -38,14 +37,9 @@ live_loop :bass, sync: :ambi do
   end
   use_random_seed rs #12 19
   pattern = [3,:r,5,:r,4,:r,6,:r,3,:r,5,:r,7,:r,11,:r].shuffle
-  if one_in(6) and repeat == 0 then
-    repeat = 1
-    pattern = [3,:r,5,:r,4,:r,6,:r,3,:r,5,:r,7,:r,6,:r]
-  end
-  if repeat == 1 then
-    repeat = 1
-    pattern = [3,:r,5,:r,4,:r,6,:r,3,:r,5,:r,7,:r,11,:r]
-    repeat = 0
+  if one_in(6) then
+    pattern = [3,:r,5,:r,4,:r,6,:r,3,:r,5,:r,7,:r,6,:r,
+               3,:r,5,:r,4,:r,6,:r,3,:r,5,:r,7,:r,11,:r]
   end
   scl = scale(:C4, :major, num_octaves: 2)
   pattern.each do |pos|
