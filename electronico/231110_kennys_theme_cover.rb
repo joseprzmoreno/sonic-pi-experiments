@@ -39,7 +39,6 @@ live_loop :melody, sync: :main do
   melody_1 ins
   melody_2 ins
   melody_2 ins
-  melody_3 ins
 end
 
 define :melody_1 do |ins|
