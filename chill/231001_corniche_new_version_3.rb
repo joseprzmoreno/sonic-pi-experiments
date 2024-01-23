@@ -40,6 +40,7 @@ live_loop :bass, sync: :ambi do
   if one_in(6) then
     pattern = [3,:r,5,:r,4,:r,6,:r,3,:r,5,:r,7,:r,6,:r,
                3,:r,5,:r,4,:r,6,:r,3,:r,5,:r,7,:r,11,:r]
+    count += 1
   end
   scl = scale(:C4, :major, num_octaves: 2)
   pattern.each do |pos|
