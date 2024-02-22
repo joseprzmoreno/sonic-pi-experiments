@@ -1,0 +1,38 @@
+live_loop :loop do
+  with_fx :panslicer do
+    with_fx :panslicer do
+      sample :ambi_drone, rate: rrand_i(1,4)
+      sleep 1
+    end
+  end
+end
+
+live_loop :drums, sync: :loop do
+  d = 1
+  sample :drum_bass_hard, amp: 4
+  sleep 0.25 * d
+  sample :elec_cymbal
+  sleep 0.25 * d
+  sleep 1.5 * d if one_in(25)
+end
+
+live_loop :bass, sync: :loop do
+  f = 1
+  with_fx :flanger do
+    pan = [-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1, 0.75, 0.5, 0.25, 0, -0.25, -0.5, 0.75]
+    sample :bass_trance_c, rate: f * 1, pan: pan.tick
+    sample :bass_trance_c, rate: f * 2, pan: pan.tick
+    sample :bass_trance_c, rate: f * 4, pan: pan.tick
+    sample :bass_trance_c, rate: f * 8, pan: pan.tick
+  end
+  sleep 1
+end
+
+live_loop :drops do
+  use_synth :square
+  use_synth_defaults release: 0.12
+  with_fx :gverb, amp: rrand(0.5,2) do
+    play scale(:C2, :major).choose if not one_in(4)
+  end
+  sleep 0.25
+end
