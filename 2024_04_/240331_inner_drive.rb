@@ -6,8 +6,8 @@ live_loop :r do
 end
 
 live_loop :vs, sync: :r do
-  #use_random_seed [17,17,23,23,22,22,100,100].tick(:rss)
-  use_random_seed [42,44].tick(:rss)
+  use_random_seed [17,17,23,23,22,22,100,100].tick(:rss)
+  #use_random_seed [42,44].tick(:rss)
   use_synth :tech_saws
   ns = scale(:C4, :major, num_octaves: 2).shuffle.take(4)
   with_fx :echo, phase: 0.5 do
@@ -19,9 +19,10 @@ live_loop :vs, sync: :r do
 end
 
 live_loop :bass, sync: :r do
+  stop
   use_synth :saw
   sleep 0.5
-  with_fx :echo do
+  with_fx :echo do #echo flanger panslicer echo
     play [62 - 12, 60 - 12].tick, amp: 0.7, sustain: 0.5
   end
   sleep 0.5
@@ -33,6 +34,7 @@ live_loop :r2, sync: :r do
 end
 
 live_loop :pianos, sync: :r do
+  stop
   use_synth :hollow
   ns = [[:C5, :D5], [:F5, :G5], [:G5, :A5]].tick(:chs)
   amp = 12

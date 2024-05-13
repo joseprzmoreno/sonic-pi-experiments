@@ -23,4 +23,5 @@ def save_sentence(sentence, lang):
     sound = AudioSegment.from_mp3(mp3_file)
     sound.export(wav_file, format="wav")
 
-save_sentence("Quizá quede algo de esperanza", "es-US")
+save_sentence("Everything goes", "en-US")
+save_sentence("Todo puede ocurrir", "es-US")
