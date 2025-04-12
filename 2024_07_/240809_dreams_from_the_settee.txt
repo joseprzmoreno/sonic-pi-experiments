@@ -1,0 +1,65 @@
+use_bpm 120
+
+c = 0
+live_loop :drums do
+  #stop
+  amp1 = 8
+  amp2 = 4
+  sample :bd_ada, amp: amp1
+  sleep 1
+  with_fx :echo, phase:[0.75, 0.5, 0.25].tick(:ps) do
+    sample :drum_bass_soft, amp: amp2
+  end
+  sleep 1
+end
+
+live_loop :bass, sync: :drums do
+  stop
+  use_synth :saw
+  use_synth_defaults amp: 0.6, release: 0.3
+  ns = [:E2, :G2]
+  ns = [:A2, :F2] if c%8 == 1 or c%8 == 5
+  with_fx :echo, phase: 0.35 do
+    play ns[0]
+    sleep 1
+    play ns[1]
+    sleep 1
+  end
+  c += 1
+end
+
+live_loop :saws, sync: :drums do
+  stop
+  use_synth :tech_saws
+  sc = scale(:C4, :minor_pentatonic, num_octaves: 2)
+  use_random_seed [4, 8, 4, 12].tick(:rs)
+  n = sc.choose
+  2.times do
+    with_fx :nrbpf, pre_amp: 0.8 do
+      with_fx :reverb do
+        play chord(n, 'M')
+        sleep 1
+        play chord(n - 2, '6')
+        sleep 3
+        play chord(n, 'M')
+        sleep 1
+        play chord(n + 2, 'M7')
+        sleep 3
+      end
+    end
+  end
+end
+
+live_loop :bells, sync: :drums do
+  stop
+  use_synth :pretty_bell
+  use_random_seed 32
+  use_synth_defaults amp: 0.8
+  sc = scale(:C5, :minor_pentatonic)
+  32.times do
+    with_fx :echo do
+      play sc.choose, pan: rrand(-1,1) if one_in 8
+      sleep 0.25
+    end
+  end
+end

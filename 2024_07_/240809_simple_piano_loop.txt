@@ -1,0 +1,31 @@
+use_bpm 120
+
+define :piano_loop do |ns|
+  use_synth :piano
+  with_fx :echo, phase: rrand(0.35, 0.44) do
+    play chord(ns[0], 'M')
+    sleep 1
+    play chord(ns[1], 'M')
+    sleep 1
+    play chord(ns[2], 'sus2')
+    sleep 1
+    play chord(ns[3], :m7)
+    sleep 1
+  end
+end
+
+live_loop :piano do
+  piano_loop [:C4, :F4, :C4, :G4]
+end
+
+live_loop :organ, sync: :piano do
+  use_synth :organ_tonewheel
+  with_fx :flanger do
+    4.times do
+      play :C5
+      sleep 1
+    end
+  end
+end
+
+
